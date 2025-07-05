@@ -19,11 +19,14 @@ function joinChat() {
   nickname = document.getElementById("nicknameInput").value.trim();
   if (!nickname) return alert("Please enter a nickname!");
 
+  localStorage.setItem("nickname", nickname); // 🧠 Save nickname
+
   document.getElementById("login-screen").style.display = "none";
   document.getElementById("chat-screen").style.display = "block";
 
   listenToRoom(currentRoom);
 }
+
 
 function sendMessage() {
   const rawRoom = document.getElementById("roomInput").value.trim();
@@ -66,3 +69,13 @@ function listenToRoom(room) {
     document.getElementById("messages").scrollTop = 9999;
   });
 }
+
+window.onload = () => {
+  if (localStorage.getItem("nickname")) {
+    nickname = localStorage.getItem("nickname");
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("chat-screen").style.display = "block";
+    listenToRoom(currentRoom);
+  }
+}
+
