@@ -19,12 +19,14 @@ body.dark {
   color: var(--text-color);
 }
 
+/* Container */
 #chat-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 10px;
 }
 
+/* Header layout */
 #chat-header {
   display: flex;
   justify-content: space-between;
@@ -44,7 +46,9 @@ body.dark {
   gap: 8px;
 }
 
-#chat-actions button {
+#chat-actions button,
+#themeToggle,
+#clearChatBtn {
   padding: 8px 12px;
   font-size: 0.9rem;
   border: none;
@@ -54,22 +58,14 @@ body.dark {
   color: #000;
 }
 
-body.dark #chat-actions button {
+body.dark #chat-actions button,
+body.dark #themeToggle,
+body.dark #clearChatBtn {
   background-color: #444;
   color: #fff;
 }
 
-@media screen and (max-width: 480px) {
-  #chat-title {
-    font-size: 1rem;
-  }
-
-  #chat-actions button {
-    padding: 6px 10px;
-    font-size: 0.85rem;
-  }
-}
-
+/* Chat messages */
 #messages {
   height: 400px;
   overflow-y: auto;
@@ -89,6 +85,7 @@ body.dark #chat-actions button {
   max-width: 70%;
   word-wrap: break-word;
   font-size: 0.95rem;
+  position: relative;
 }
 
 .sent {
@@ -115,6 +112,23 @@ body.dark .received {
   color: #fff;
 }
 
+/* Timestamp */
+.timestamp {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  margin-top: 5px;
+}
+
+/* System messages */
+.system {
+  align-self: center;
+  background-color: transparent;
+  color: gray;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Input area */
 #input-area {
   display: flex;
   gap: 10px;
@@ -140,50 +154,35 @@ body.dark .received {
   font-size: 1rem;
 }
 
-#clearChatBtn {
-  background-color: transparent;
-  color: var(--text-color);
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#themeToggle {
-  margin-top: 10px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background-color: #ccc;
-}
-
-/* Mobile responsive */
+/* Responsive */
 @media screen and (max-width: 600px) {
   #chat-container {
     padding: 8px;
   }
 
   #chat-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  #sendBtn, #clearChatBtn, #themeToggle {
+  #chat-title {
+    font-size: 1rem;
+  }
+
+  #chat-actions button,
+  #themeToggle,
+  #clearChatBtn {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  #sendBtn {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+  }
+
+  .bubble {
     font-size: 0.9rem;
-    padding: 8px 10px;
   }
-}
-.timestamp {
-  font-size: 0.75rem;
-  opacity: 0.6;
-  margin-top: 5px;
-}
-
-.system {
-  align-self: center;
-  background-color: transparent;
-  color: gray;
-  font-style: italic;
-  text-align: center;
 }
