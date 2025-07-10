@@ -1,9 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Wait for DOM to be ready
   const db = firebase.database();
   const chatRef = db.ref("messages");
 
-  window.sendMessage = function () {
+  function sendMessage() {
     const username = document.getElementById("username").value.trim();
     const message = document.getElementById("message").value.trim();
     if (!username || !message) return;
@@ -15,7 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.getElementById("message").value = "";
-  };
+  }
+
+  document.getElementById("sendBtn").addEventListener("click", sendMessage);
 
   chatRef.on("child_added", (snapshot) => {
     const msg = snapshot.val();
