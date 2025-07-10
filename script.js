@@ -1,5 +1,4 @@
-const ADMIN_EMAILS = ["kpthewarrior@gmail.com"]; // Replace with real admin email(s)
-
+const ADMIN_EMAILS = ["kpthewarrior@gmail.com"]; // Replace with real admin email(s) separated by commas
 document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.database();
   const auth = firebase.auth();
@@ -12,24 +11,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const themeBtn = document.getElementById("themeToggle");
   const clearChatBtn = document.getElementById("clearChatBtn");
+  const sendBtn = document.getElementById("sendBtn");
+  const messageInput = document.getElementById("message");
 
   signInButton.addEventListener("click", () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
-      .then(result => {
-        const user = result.user;
-        initializeChat(user);
-      })
-      .catch(error => {
-        console.error("Login failed:", error);
-        alert("Login failed. Try again.");
-      });
+      .then(result => initializeChat(result.user))
+      .catch(error => alert("Login failed. Try again."));
   });
 
   auth.onAuthStateChanged(user => {
-    if (user) {
-      initializeChat(user);
-    }
+    if (user) initializeChat(user);
   });
 
   function initializeChat(user) {
@@ -41,37 +34,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (ADMIN_EMAILS.includes(user.email)) {
       clearChatBtn.style.display = "block";
       clearChatBtn.addEventListener("click", () => {
-        const confirmClear = confirm("⚠️ Are you sure you want to clear the entire chat history?");
+        const confirmClear = confirm("⚠️ Are you sure you want to clear the chat?");
         if (confirmClear) {
-          chatRef.remove()
-            .then(() => {
-              document.getElementById("messages").innerHTML = "";
-              alert("✅ Chat cleared");
-            })
-            .catch(err => alert("❌ Failed to clear chat: " + err));
+          chatRef.remove().then(() => {
+            document.getElementById("messages").innerHTML = "";
+            alert("✅ Chat cleared");
+          });
         }
       });
     }
 
-    document.getElementById("sendBtn").addEventListener("click", () => {
-      const message = document.getElementById("message").value.trim();
-      if (!message) return;
-
-      chatRef.push({
-        name: user.displayName,
-        email: user.email,
-        message: message,
-        timestamp: new Date().toISOString()
-      });
-
-      document.getElementById("message").addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && !e.shiftKey) {
-          e.preventDefault(); // Prevent newline
-          document.getElementById("sendBtn").click();
-        }
-      });
-
-      document.getElementById("message").value = "";
+    sendBtn.addEventListener("click", () => sendMessage(user));
+    messageInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage(user);
+      }
     });
 
     chatRef.on("child_added", (snapshot) => {
@@ -95,5 +73,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const theme = document.body.classList.contains("dark") ? "dark" : "light";
       localStorage.setItem("chat-theme", theme);
     });
+  }
+
+  function sendMessage(user) {
+    const message = messageInput.value.trim();
+    if (!message) return;
+
+    chatRef.push({
+      name: user.displayName,
+      email: user.email,
+      message: message,
+      timestamp: new Date().toISOString()
+    });
+
+    messageInput.value = "";
   }
 });

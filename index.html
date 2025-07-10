@@ -3,29 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>:et's Chat</title>
+  <title>Let's Chat</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="user-info" style="display: none;">
-    <p id="welcome-message"></p>
-  </div>
+  <div id="chat-container">
+    <div id="user-info" style="display: none;">
+      <p id="welcome-message"></p>
+    </div>
 
-  <button id="google-signin-btn">Sign in with Google</button>
+    <button id="google-signin-btn">Sign in with Google</button>
 
-<div id="chat-area" style="display: none;">
-  <div id="chat-header">
-    <span><strong>Let's Chat</strong></span>
-    <button id="clearChatBtn" style="display: none;">🧹 Clear Chat</button>
-  </div>
-  <button id="themeToggle">🌓 Toggle Theme</button>
-  <div id="messages"></div>
-  <div id="input-area">
-    <input type="text" id="message" placeholder="Type a message..." />
-    <button id="sendBtn">Send</button>
-  </div>
-</div>
+    <div id="chat-area" style="display: none;">
+      <div id="chat-header">
+        <span><strong>Let's Chat</strong>`</span>
+        <button id="clearChatBtn" style="display: none;">🧹</button>
+      </div>
 
+      <div id="messages"></div>
+
+      <div id="input-area">
+        <input type="text" id="message" placeholder="Type a message..." />
+        <button id="sendBtn">Send</button>
+      </div>
+
+      <button id="themeToggle">🌓 Toggle Theme</button>
+    </div>
+  </div>
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
