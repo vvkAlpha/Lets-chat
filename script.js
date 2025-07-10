@@ -64,6 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         timestamp: new Date().toISOString()
       });
 
+      document.getElementById("message").addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault(); // Prevent newline
+          document.getElementById("sendBtn").click();
+        }
+      });
+
       document.getElementById("message").value = "";
     });
 
