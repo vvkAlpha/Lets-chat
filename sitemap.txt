@@ -1,5 +1,5 @@
-/chat-app/
-│
+/picklish-chat/
 ├── index.html
 ├── style.css
+├── firebase-config.js
 └── script.js
