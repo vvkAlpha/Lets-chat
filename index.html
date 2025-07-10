@@ -13,13 +13,22 @@
 
   <button id="google-signin-btn">Sign in with Google</button>
 
-  <div id="chat-area" style="display: none;">
-    <div id="messages"></div>
+<div id="chat-area" style="display: none;">
+  <div id="chat-header">
+    <span><strong>Picklish Group Chat</strong></span>
+    <button id="clearChatBtn" style="display: none;">🧹</button>
+  </div>
+
+  <div id="messages"></div>
+
+  <div id="input-area">
     <input type="text" id="message" placeholder="Type a message..." />
     <button id="sendBtn">Send</button>
-    <button id="clearChatBtn" style="display: none;">🧹 Clear Chat (Admin Only)</button>
-    <button id="themeToggle">🌓 Toggle Theme</button>
   </div>
+
+  <button id="themeToggle">🌓 Toggle Theme</button>
+</div>
+
 
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
