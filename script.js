@@ -2,10 +2,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.database();
   const chatRef = db.ref("messages");
 
+  let username = localStorage.getItem("username");
+
+  if (!username) {
+    username = prompt("Welcome to Picklish Chat! Please enter your name to start:");
+    if (!username || username.trim() === "") {
+      alert("Name is required to start chatting.");
+      location.reload(); // force restart if blank
+      return;
+    }
+    username = username.trim();
+    localStorage.setItem("username", username);
+  }
+
+  // Hide the username input if it exists
+  const usernameInput = document.getElementById("username");
+  if (usernameInput) {
+    usernameInput.value = username;
+    usernameInput.style.display = "none";
+  }
+
   function sendMessage() {
-    const username = document.getElementById("username").value.trim();
     const message = document.getElementById("message").value.trim();
-    if (!username || !message) return;
+    if (!message) return;
 
     chatRef.push({
       name: username,
