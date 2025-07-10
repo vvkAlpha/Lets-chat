@@ -34,17 +34,24 @@ body.dark {
   margin-bottom: 10px;
   gap: 10px;
   flex-wrap: nowrap;
+  width: 100%;
+  overflow: hidden;
 }
 
 #chat-title {
   font-size: 1.1rem;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
 }
 
 #chat-actions {
   display: flex;
   gap: 8px;
+  flex-shrink: 0;
 }
+
 
 #chat-actions button,
 #themeToggle,
@@ -168,12 +175,13 @@ body.dark .received {
 
   #chat-title {
     font-size: 1rem;
+    max-width: 50%;
   }
 
   #chat-actions button,
   #themeToggle,
   #clearChatBtn {
-    padding: 6px 10px;
+    padding: 6px 8px;
     font-size: 0.85rem;
   }
 
