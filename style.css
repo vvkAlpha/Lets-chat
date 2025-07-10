@@ -174,3 +174,16 @@ body.dark .received {
     padding: 8px 10px;
   }
 }
+.timestamp {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  margin-top: 5px;
+}
+
+.system {
+  align-self: center;
+  background-color: transparent;
+  color: gray;
+  font-style: italic;
+  text-align: center;
+}

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.database();
   const auth = firebase.auth();
   const chatRef = db.ref("messages");
+  const usersRef = db.ref("users");
 
   const signInButton = document.getElementById("google-signin-btn");
   const chatArea = document.getElementById("chat-area");
@@ -13,12 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const clearChatBtn = document.getElementById("clearChatBtn");
   const sendBtn = document.getElementById("sendBtn");
   const messageInput = document.getElementById("message");
+  const messagesDiv = document.getElementById("messages");
 
   signInButton.addEventListener("click", () => {
     const provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider)
       .then(result => initializeChat(result.user))
-      .catch(error => alert("Login failed. Try again."));
+      .catch(error => alert("Login failed."));
   });
 
   auth.onAuthStateChanged(user => {
@@ -34,15 +36,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (ADMIN_EMAILS.includes(user.email)) {
       clearChatBtn.style.display = "block";
       clearChatBtn.addEventListener("click", () => {
-        const confirmClear = confirm("⚠️ Are you sure you want to clear the chat?");
-        if (confirmClear) {
+        if (confirm("⚠️ Clear entire chat?")) {
           chatRef.remove().then(() => {
-            document.getElementById("messages").innerHTML = "";
+            messagesDiv.innerHTML = "";
             alert("✅ Chat cleared");
           });
         }
       });
     }
+
+    // Check if it's the user's first login
+    usersRef.child(user.uid).once("value", snapshot => {
+      if (!snapshot.exists()) {
+        usersRef.child(user.uid).set({ joinedAt: Date.now(), name: user.displayName });
+        chatRef.push({
+          type: "system",
+          message: `${user.displayName} has joined the chat`,
+          timestamp: new Date().toISOString()
+        });
+      }
+    });
 
     sendBtn.addEventListener("click", () => sendMessage(user));
     messageInput.addEventListener("keydown", (e) => {
@@ -52,13 +65,25 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    chatRef.on("child_added", (snapshot) => {
+    chatRef.on("child_added", snapshot => {
       const msg = snapshot.val();
       const isSender = msg.email === user.email;
       const msgElement = document.createElement("div");
-      msgElement.classList.add("bubble", isSender ? "sent" : "received");
-      msgElement.innerHTML = `<strong>${msg.name}</strong><br>${msg.message}`;
-      const messagesDiv = document.getElementById("messages");
+      msgElement.classList.add("bubble");
+
+      const time = new Date(msg.timestamp).toLocaleString(undefined, {
+        dateStyle: "short",
+        timeStyle: "short"
+      });
+
+      if (msg.type === "system") {
+        msgElement.classList.add("system");
+        msgElement.innerHTML = `<em>${msg.message}</em><div class="timestamp">${time}</div>`;
+      } else {
+        msgElement.classList.add(isSender ? "sent" : "received");
+        msgElement.innerHTML = `<strong>${msg.name}</strong><br>${msg.message}<div class="timestamp">${time}</div>`;
+      }
+
       messagesDiv.appendChild(msgElement);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
