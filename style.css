@@ -30,6 +30,44 @@ body.dark {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+#chat-title {
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+#chat-actions {
+  display: flex;
+  gap: 8px;
+}
+
+#chat-actions button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #ccc;
+  color: #000;
+}
+
+body.dark #chat-actions button {
+  background-color: #444;
+  color: #fff;
+}
+
+@media screen and (max-width: 480px) {
+  #chat-title {
+    font-size: 1rem;
+  }
+
+  #chat-actions button {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
 }
 
 #messages {
