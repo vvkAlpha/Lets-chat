@@ -36,8 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const confirmClear = confirm("⚠️ Are you sure you want to clear the entire chat history?");
     if (confirmClear) {
       chatRef.remove()
-        .then(() => alert("✅ Chat cleared"))
-        .catch(err => alert("❌ Failed to clear chat: " + err));
+  .then(() => {
+    document.getElementById("messages").innerHTML = ""; // Clear UI too
+    alert("✅ Chat cleared");
+  })
+  .catch(err => alert("❌ Failed to clear chat: " + err));
     }
   });
 }
@@ -62,12 +65,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     chatRef.on("child_added", (snapshot) => {
-      const msg = snapshot.val();
-      const msgElement = document.createElement("p");
-      msgElement.textContent = `${msg.name}: ${msg.message}`;
-      const messagesDiv = document.getElementById("messages");
+      
+      const isSender = msg.email === user.email;
+      const msgElement = document.createElement("div");
+      msgElement.classList.add("bubble", isSender ? "sent" : "received");
+      msgElement.innerHTML = `<strong>${msg.name}</strong><br>${msg.message}`;
       messagesDiv.appendChild(msgElement);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
   }
 });
+const themeBtn = document.getElementById("themeToggle");
+themeBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  const theme = document.body.classList.contains("dark") ? "dark" : "light";
+  localStorage.setItem("chat-theme", theme);
+});
+
+// Persist theme on reload
+const savedTheme = localStorage.getItem("chat-theme");
+if (savedTheme === "dark") {
+  document.body.classList.add("dark");
+}
