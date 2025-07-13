@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Let's Chat Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h2>🛡️ Admin Dashboard</h2>
+  <section>
+    <h3>Pending User Approvals</h3>
+    <ul id="pending-users"></ul>
+  </section>
+  <section>
+    <h3>Audit Logs</h3>
+    <ul id="audit-logs"></ul>
+  </section>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <script src="firebase-config.js"></script>
+  <script src="auth.js"></script>
+  <script src="dashboard.js"></script>
+</body>
+</html>
